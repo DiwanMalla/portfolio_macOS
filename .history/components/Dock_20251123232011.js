@@ -33,7 +33,7 @@ export default function Dock() {
     if (app.type === "window") {
       const config = windowRegistry[app.id];
       if (!config) return;
-
+      
       // Small delay to let the bounce start
       setTimeout(() => {
         openWindow({

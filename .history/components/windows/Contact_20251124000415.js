@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Send, Mail, MapPin, Phone } from "lucide-react";
+import { Send, Mail, MapPin, Phone, Globe } from "lucide-react";
 import { contactInfo, socialLinks } from "@/constants/profile";
 
 export default function Contact() {
@@ -107,7 +107,7 @@ export default function Contact() {
             Send a Message
           </h3>
           <p className="text-gray-500 dark:text-gray-400 mb-8">
-            I&apos;m always open to discussing new projects, creative ideas or
+            I'm always open to discussing new projects, creative ideas or
             opportunities to be part of your visions.
           </p>
 

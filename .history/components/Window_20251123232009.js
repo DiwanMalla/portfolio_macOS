@@ -48,24 +48,20 @@ export default function Window({ windowData }) {
 
     const ctx = gsap.context(() => {
       // Initialize draggable
-      try {
-        draggableRef.current = Draggable.create(windowRef.current, {
-          trigger: headerRef.current,
-          bounds: "body",
-          // inertia: true, // Requires InertiaPlugin
-          onDrag: function () {
-            updateWindowPosition(windowData.id, {
-              x: this.x,
-              y: this.y,
-            });
-          },
-          onPress: () => {
-            setActiveWindow(windowData.id);
-          },
-        });
-      } catch (error) {
-        console.warn("Failed to create Draggable:", error);
-      }
+      draggableRef.current = Draggable.create(windowRef.current, {
+        trigger: headerRef.current,
+        bounds: "body",
+        inertia: true,
+        onDrag: function () {
+          updateWindowPosition(windowData.id, {
+            x: this.x,
+            y: this.y,
+          });
+        },
+        onPress: () => {
+          setActiveWindow(windowData.id);
+        },
+      });
 
       // Entry animation
       gsap.fromTo(
@@ -85,9 +81,6 @@ export default function Window({ windowData }) {
 
     return () => {
       ctx.revert();
-      // Draggable is killed by ctx.revert() automatically if created inside context? 
-      // Actually Draggable needs manual kill usually, but let's check.
-      // To be safe, we kill it manually if it exists.
       if (draggableRef.current && draggableRef.current[0]) {
         draggableRef.current[0].kill();
       }

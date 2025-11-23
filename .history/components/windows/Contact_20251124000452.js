@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { Send, Mail, MapPin, Phone } from "lucide-react";
+import { Send, Mail, MapPin, Phone, Globe } from "lucide-react";
 import { contactInfo, socialLinks } from "@/constants/profile";
 
 export default function Contact() {
