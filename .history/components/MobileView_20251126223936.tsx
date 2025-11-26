@@ -15,7 +15,7 @@ import Photos from "./windows/Photos";
 import Image from "next/image";
 
 // Status Bar Component
-const TabletStatusBar = ({ light = false }: { light?: boolean }) => {
+const MobileStatusBar = ({ light = false }: { light?: boolean }) => {
   const [time, setTime] = useState(new Date());
 
   useEffect(() => {
@@ -25,52 +25,36 @@ const TabletStatusBar = ({ light = false }: { light?: boolean }) => {
 
   return (
     <div
-      className={`h-7 ${
-        light ? "bg-transparent" : "bg-white/70 dark:bg-black/50"
-      } backdrop-blur-xl text-gray-900 dark:text-white flex items-center justify-between px-4 text-xs`}
+      className={`h-12 ${
+        light ? "bg-transparent" : "bg-black/90"
+      } text-white flex items-center justify-between px-6 safe-area-top`}
     >
-      <div className="flex items-center gap-2">
-        <span className="font-semibold">
-          {time.toLocaleDateString("en-US", {
-            weekday: "short",
-            month: "short",
-            day: "numeric",
-          })}
-        </span>
-        <span>
-          {time.toLocaleTimeString("en-US", {
-            hour: "numeric",
-            minute: "2-digit",
-          })}
-        </span>
+      <div className="text-sm font-semibold">
+        {time.toLocaleTimeString("en-US", {
+          hour: "numeric",
+          minute: "2-digit",
+        })}
       </div>
-      <div className="flex items-center gap-3">
+      <div className="w-32 h-8 bg-black rounded-3xl" />
+      <div className="flex items-center gap-1.5">
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12 3C7.46 3 3.34 4.78.29 7.67c-.18.18-.29.43-.29.71 0 .28.11.53.29.71l2.48 2.48c.18.18.43.29.71.29.27 0 .52-.11.7-.28.79-.74 1.69-1.36 2.66-1.85.33-.16.56-.5.56-.9v-3.1c1.45-.48 3-.73 4.6-.73s3.15.25 4.6.72v3.1c0 .39.23.74.56.9.98.49 1.87 1.12 2.67 1.85.18.18.43.28.7.28.28 0 .53-.11.71-.29l2.48-2.48c.18-.18.29-.43.29-.71 0-.28-.11-.53-.29-.71C20.66 4.78 16.54 3 12 3z" />
         </svg>
-        <div className="flex items-center gap-0.5">
-          <div className="w-1.5 h-3 bg-white/40 rounded-sm" />
-          <div className="w-1.5 h-4 bg-white/60 rounded-sm" />
-          <div className="w-1.5 h-5 bg-white/80 rounded-sm" />
-          <div className="w-1.5 h-6 bg-white rounded-sm" />
-        </div>
-        <div className="flex items-center">
-          <div className="w-6 h-3 border border-white rounded-sm flex items-center justify-end pr-0.5">
-            <div className="w-4 h-2 bg-green-400 rounded-xs" />
-          </div>
-          <div className="w-0.5 h-1.5 bg-white rounded-r-sm ml-0.5" />
-        </div>
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4z" />
+        </svg>
       </div>
     </div>
   );
 };
 
-// Tablet Intro Screen Component
-const TabletIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
+// Mobile Intro/Lock Screen Component
+const MobileIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
   useEffect(() => {
+    // Typewriter effect for title
     const title = heroContent.title;
     let currentIndex = 0;
 
@@ -92,19 +76,19 @@ const TabletIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
 
   return (
     <div
-      className="flex-1 flex flex-col items-center justify-center px-12 cursor-pointer"
+      className="flex-1 flex flex-col items-center justify-center px-8 cursor-pointer"
       onClick={onUnlock}
     >
       {/* Ambient glow */}
-      <div className="absolute w-[500px] h-[300px] bg-blue-500/20 dark:bg-blue-400/20 rounded-full blur-[100px] animate-pulse" />
+      <div className="absolute w-80 h-80 bg-blue-500/20 dark:bg-blue-400/20 rounded-full blur-[80px] animate-pulse" />
 
       {/* Name with theme-aware background */}
-      <div className="px-8 py-6 rounded-3xl bg-white/10 dark:bg-black/30 backdrop-blur-xl mb-6">
+      <div className="px-6 py-4 rounded-2xl bg-white/10 dark:bg-black/30 backdrop-blur-xl mb-4">
         <h1
-          className="text-7xl md:text-8xl font-bold text-gray-900 dark:text-white tracking-tight text-center relative z-10"
+          className="text-5xl sm:text-6xl font-bold text-gray-900 dark:text-white tracking-tight text-center relative z-10"
           style={{
             textShadow:
-              "0 0 60px rgba(59, 130, 246, 0.5), 0 4px 20px rgba(0, 0, 0, 0.3)",
+              "0 0 40px rgba(59, 130, 246, 0.5), 0 4px 15px rgba(0, 0, 0, 0.3)",
           }}
         >
           {heroContent.headline}
@@ -112,14 +96,14 @@ const TabletIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
       </div>
 
       {/* Decorative line */}
-      <div className="w-32 h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent rounded-full mb-6" />
+      <div className="w-24 h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent rounded-full mb-4" />
 
       {/* Title with typewriter effect - theme aware */}
-      <div className="px-6 py-3 rounded-2xl bg-white/10 dark:bg-black/30 backdrop-blur-md">
-        <p className="text-xl md:text-2xl text-gray-800 dark:text-white/90 font-medium uppercase tracking-[0.25em] text-center flex items-center">
+      <div className="px-4 py-2 rounded-xl bg-white/10 dark:bg-black/30 backdrop-blur-md">
+        <p className="text-lg text-gray-800 dark:text-white/90 font-medium uppercase tracking-[0.2em] text-center flex items-center">
           <span>{displayedTitle}</span>
           <span
-            className={`ml-1 inline-block w-0.5 h-6 bg-blue-500 dark:bg-blue-400 ${
+            className={`ml-1 inline-block w-0.5 h-5 bg-blue-500 dark:bg-blue-400 ${
               showCursor ? "opacity-100" : "opacity-0"
             }`}
             style={{ transition: "opacity 0.1s" }}
@@ -127,27 +111,23 @@ const TabletIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
         </p>
       </div>
 
-      {/* Location & Availability - theme aware */}
-      <div className="flex items-center gap-6 mt-6 px-4 py-2 rounded-xl bg-white/10 dark:bg-black/30 backdrop-blur-sm">
-        <p className="flex items-center gap-2 text-gray-700 dark:text-white/60">
-          <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+      {/* Location - theme aware */}
+      <div className="mt-3 px-3 py-1.5 rounded-lg bg-white/10 dark:bg-black/30 backdrop-blur-sm">
+        <p className="text-sm text-gray-700 dark:text-white/60 flex items-center gap-2">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
           </svg>
           {profile.location}
         </p>
-        <span className="w-1 h-1 bg-gray-500 dark:bg-white/40 rounded-full" />
-        <p className="text-green-600 dark:text-green-400">
-          {profile.availability}
-        </p>
       </div>
 
-      {/* Tap indicator - theme aware */}
-      <div className="absolute bottom-20 flex flex-col items-center gap-3 animate-bounce">
-        <p className="text-gray-600 dark:text-white/50 text-sm uppercase tracking-wider px-4 py-2 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-sm">
-          Tap anywhere to explore
+      {/* Swipe up indicator - theme aware */}
+      <div className="absolute bottom-24 flex flex-col items-center gap-2 animate-bounce">
+        <p className="text-gray-600 dark:text-white/50 text-xs uppercase tracking-wider px-3 py-1 rounded-full bg-white/10 dark:bg-black/20 backdrop-blur-sm">
+          Tap to explore
         </p>
         <svg
-          className="w-8 h-8 text-gray-600 dark:text-white/50"
+          className="w-6 h-6 text-gray-600 dark:text-white/50"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -164,43 +144,36 @@ const TabletIntroScreen = ({ onUnlock }: { onUnlock: () => void }) => {
   );
 };
 
-// Dock Component
-const TabletDock = ({
-  apps,
-  onAppClick,
+// App Icon Component
+const MobileAppIcon = ({
+  app,
+  onClick,
 }: {
-  apps: WindowConfig[];
-  onAppClick: (appId: string) => void;
+  app: WindowConfig;
+  onClick: () => void;
 }) => (
-  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50">
-    <div className="flex items-center gap-3 px-4 py-2 bg-gray-200/70 dark:bg-white/20 backdrop-blur-2xl rounded-2xl border border-gray-300/50 dark:border-white/30">
-      {apps.slice(0, 8).map((app) => (
-        <button
-          key={app.id}
-          onClick={() => onAppClick(app.id)}
-          className="group relative"
-        >
-          <div className="w-14 h-14 rounded-xl bg-white/30 dark:bg-white/10 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 group-active:scale-95 overflow-hidden relative">
-            <Image
-              src={app.icon}
-              alt={app.title}
-              fill
-              className="object-contain p-1"
-            />
-          </div>
-          <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 dark:bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-            {app.title}
-          </span>
-        </button>
-      ))}
+  <button
+    onClick={onClick}
+    className="flex flex-col items-center gap-2 p-2 active:scale-95 transition-transform"
+  >
+    <div className="w-16 h-16 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-lg overflow-hidden relative">
+      <Image
+        src={app.icon}
+        alt={app.title}
+        fill
+        className="object-contain p-2"
+      />
     </div>
-  </div>
+    <span className="text-xs text-white font-medium drop-shadow-lg truncate max-w-[70px]">
+      {app.title}
+    </span>
+  </button>
 );
 
 // Home Indicator Component
 const HomeIndicator = () => (
-  <div className="h-6 flex items-center justify-center">
-    <div className="w-32 h-1 bg-gray-800/50 dark:bg-white/50 rounded-full" />
+  <div className="h-8 flex items-center justify-center pb-2">
+    <div className="w-32 h-1 bg-white/50 rounded-full" />
   </div>
 );
 
@@ -211,7 +184,7 @@ type NavigationState =
   | { type: "app"; appId: string }
   | { type: "project"; project: Project };
 
-export default function TabletView() {
+export default function MobileView() {
   const { projects } = useProjects();
   const [navigation, setNavigation] = useState<NavigationState>({
     type: "intro",
@@ -240,12 +213,13 @@ export default function TabletView() {
     setNavigation({ type: "project", project });
   };
 
+  // Render content based on navigation state
   const renderContent = () => {
     if (navigation.type === "intro") {
       return (
         <div className="flex-1 flex flex-col">
-          <TabletStatusBar light />
-          <TabletIntroScreen onUnlock={handleUnlock} />
+          <MobileStatusBar light />
+          <MobileIntroScreen onUnlock={handleUnlock} />
           <HomeIndicator />
         </div>
       );
@@ -254,31 +228,18 @@ export default function TabletView() {
     if (navigation.type === "home") {
       return (
         <div className="flex-1 flex flex-col">
-          <TabletStatusBar />
-          <div className="flex-1 overflow-auto p-8">
-            <div className="grid grid-cols-6 gap-6 justify-items-center max-w-4xl mx-auto">
+          <MobileStatusBar />
+          <div className="flex-1 overflow-auto p-4">
+            <div className="grid grid-cols-4 gap-4 justify-items-center">
               {apps.map((app) => (
-                <button
+                <MobileAppIcon
                   key={app.id}
+                  app={app}
                   onClick={() => handleAppClick(app.id)}
-                  className="flex flex-col items-center gap-2 p-3 active:scale-95 transition-transform"
-                >
-                  <div className="w-20 h-20 rounded-2xl bg-white/20 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-lg overflow-hidden relative">
-                    <Image
-                      src={app.icon}
-                      alt={app.title}
-                      fill
-                      className="object-contain p-2"
-                    />
-                  </div>
-                  <span className="text-sm font-medium px-2 py-0.5 rounded bg-white/60 dark:bg-black/40 text-gray-900 dark:text-white backdrop-blur-sm">
-                    {app.title}
-                  </span>
-                </button>
+                />
               ))}
             </div>
           </div>
-          <TabletDock apps={apps} onAppClick={handleAppClick} />
           <HomeIndicator />
         </div>
       );
@@ -287,10 +248,10 @@ export default function TabletView() {
     if (navigation.type === "project") {
       return (
         <div className="flex-1 flex flex-col bg-gray-900">
-          <div className="h-12 bg-gray-800 flex items-center px-6 gap-4">
+          <div className="h-12 bg-gray-800 flex items-center px-4 gap-3">
             <button
               onClick={handleBack}
-              className="text-blue-400 flex items-center gap-1 hover:text-blue-300"
+              className="text-blue-400 flex items-center gap-1"
             >
               <svg
                 className="w-5 h-5"
@@ -305,9 +266,9 @@ export default function TabletView() {
                   d="M15 19l-7-7 7-7"
                 />
               </svg>
-              Projects
+              Back
             </button>
-            <span className="text-white font-medium flex-1 text-center pr-20">
+            <span className="text-white font-medium truncate flex-1 text-center pr-10">
               {navigation.project.title}
             </span>
           </div>
@@ -324,10 +285,10 @@ export default function TabletView() {
     const currentApp = apps.find((a) => a.id === appId);
     return (
       <div className="flex-1 flex flex-col bg-gray-900">
-        <div className="h-12 bg-gray-800 flex items-center px-6 gap-4">
+        <div className="h-12 bg-gray-800 flex items-center px-4 gap-3">
           <button
             onClick={handleBack}
-            className="text-blue-400 flex items-center gap-1 hover:text-blue-300"
+            className="text-blue-400 flex items-center gap-1"
           >
             <svg
               className="w-5 h-5"
@@ -344,7 +305,7 @@ export default function TabletView() {
             </svg>
             Home
           </button>
-          <span className="text-white font-medium flex-1 text-center pr-14">
+          <span className="text-white font-medium flex-1 text-center pr-10">
             {currentApp?.title || "App"}
           </span>
         </div>
@@ -358,15 +319,15 @@ export default function TabletView() {
     switch (appId) {
       case "finder":
         return (
-          <div className="p-6">
-            <div className="grid grid-cols-3 gap-6">
+          <div className="p-4">
+            <div className="grid grid-cols-2 gap-4">
               {projects.map((project) => (
                 <button
                   key={project._id}
                   onClick={() => handleSelectProject(project)}
-                  className="bg-gray-800 rounded-xl p-4 text-left hover:bg-gray-700 active:bg-gray-600 transition-colors"
+                  className="bg-gray-800 rounded-xl p-3 text-left active:bg-gray-700 transition-colors"
                 >
-                  <div className="aspect-video rounded-lg overflow-hidden mb-4 bg-gray-700 relative">
+                  <div className="aspect-video rounded-lg overflow-hidden mb-3 bg-gray-700 relative">
                     {project.images && project.images[0] && (
                       <Image
                         src={project.images[0]}
@@ -376,19 +337,19 @@ export default function TabletView() {
                       />
                     )}
                   </div>
-                  <h3 className="text-white font-medium text-base">
+                  <h3 className="text-white font-medium text-sm truncate">
                     {project.title}
                   </h3>
-                  <p className="text-gray-400 text-sm mt-2 line-clamp-2">
+                  <p className="text-gray-400 text-xs mt-1 line-clamp-2">
                     {project.description
                       ?.replace(/\*\*/g, "")
-                      .substring(0, 150)}
+                      .substring(0, 100)}
                   </p>
-                  <div className="flex flex-wrap gap-2 mt-3">
-                    {project.tags?.slice(0, 4).map((tag: string, i: number) => (
+                  <div className="flex flex-wrap gap-1 mt-2">
+                    {project.tags?.slice(0, 3).map((tag: string, i: number) => (
                       <span
                         key={i}
-                        className="text-xs px-2 py-1 bg-blue-500/20 text-blue-400 rounded-full"
+                        className="text-[10px] px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded-full"
                       >
                         {tag}
                       </span>

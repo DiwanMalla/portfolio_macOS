@@ -26,8 +26,8 @@ const TabletStatusBar = ({ light = false }: { light?: boolean }) => {
   return (
     <div
       className={`h-7 ${
-        light ? "bg-transparent" : "bg-white/70 dark:bg-black/50"
-      } backdrop-blur-xl text-gray-900 dark:text-white flex items-center justify-between px-4 text-xs`}
+        light ? "bg-transparent" : "bg-black/50"
+      } backdrop-blur-xl text-white flex items-center justify-between px-4 text-xs`}
     >
       <div className="flex items-center gap-2">
         <span className="font-semibold">
@@ -173,14 +173,14 @@ const TabletDock = ({
   onAppClick: (appId: string) => void;
 }) => (
   <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-50">
-    <div className="flex items-center gap-3 px-4 py-2 bg-gray-200/70 dark:bg-white/20 backdrop-blur-2xl rounded-2xl border border-gray-300/50 dark:border-white/30">
+    <div className="flex items-center gap-3 px-4 py-2 bg-white/20 backdrop-blur-2xl rounded-2xl border border-white/30">
       {apps.slice(0, 8).map((app) => (
         <button
           key={app.id}
           onClick={() => onAppClick(app.id)}
           className="group relative"
         >
-          <div className="w-14 h-14 rounded-xl bg-white/30 dark:bg-white/10 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 group-active:scale-95 overflow-hidden relative">
+          <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center shadow-lg transition-transform group-hover:scale-110 group-active:scale-95 overflow-hidden relative">
             <Image
               src={app.icon}
               alt={app.title}
@@ -188,7 +188,7 @@ const TabletDock = ({
               className="object-contain p-1"
             />
           </div>
-          <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 dark:bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+          <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
             {app.title}
           </span>
         </button>
@@ -200,7 +200,7 @@ const TabletDock = ({
 // Home Indicator Component
 const HomeIndicator = () => (
   <div className="h-6 flex items-center justify-center">
-    <div className="w-32 h-1 bg-gray-800/50 dark:bg-white/50 rounded-full" />
+    <div className="w-32 h-1 bg-white/50 rounded-full" />
   </div>
 );
 
@@ -263,7 +263,7 @@ export default function TabletView() {
                   onClick={() => handleAppClick(app.id)}
                   className="flex flex-col items-center gap-2 p-3 active:scale-95 transition-transform"
                 >
-                  <div className="w-20 h-20 rounded-2xl bg-white/20 dark:bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-lg overflow-hidden relative">
+                  <div className="w-20 h-20 rounded-2xl bg-white/10 backdrop-blur-xl flex items-center justify-center shadow-lg overflow-hidden relative">
                     <Image
                       src={app.icon}
                       alt={app.title}
@@ -271,7 +271,7 @@ export default function TabletView() {
                       className="object-contain p-2"
                     />
                   </div>
-                  <span className="text-sm font-medium px-2 py-0.5 rounded bg-white/60 dark:bg-black/40 text-gray-900 dark:text-white backdrop-blur-sm">
+                  <span className="text-sm text-white font-medium drop-shadow-lg">
                     {app.title}
                   </span>
                 </button>
