@@ -183,32 +183,17 @@ export default function Contact() {
               />
             </div>
 
-            {error && (
-              <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-md">
-                <p className="text-sm text-red-600 dark:text-red-400">
-                  {error}
-                </p>
-              </div>
-            )}
-
             <button
               type="submit"
-              disabled={isSending || isSent}
+              disabled={isSent}
               className={`w-full py-2.5 px-4 rounded-md font-medium text-white transition-all flex items-center justify-center gap-2 ${
                 isSent
                   ? "bg-green-500 hover:bg-green-600"
-                  : isSending
-                  ? "bg-blue-400 cursor-not-allowed"
                   : "bg-blue-500 hover:bg-blue-600"
               }`}
             >
               {isSent ? (
                 "Message Sent!"
-              ) : isSending ? (
-                <>
-                  <Loader2 size={18} className="animate-spin" />
-                  Sending...
-                </>
               ) : (
                 <>
                   <Send size={18} />

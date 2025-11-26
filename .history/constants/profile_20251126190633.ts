@@ -80,8 +80,8 @@ export const socialLinks: SocialLink[] = [
   {
     id: "linkedin",
     label: "LinkedIn",
-    url: "https://www.linkedin.com/in/diwan-malla/",
-    handle: "linkedin.com/in/diwan-malla",
+    url: "https://www.linkedin.com/in/diwanmalla/",
+    handle: "linkedin.com/in/diwanmalla",
     icon: "/icons/linkedin.svg",
   },
   {

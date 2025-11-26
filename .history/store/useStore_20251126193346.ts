@@ -89,25 +89,17 @@ const useStore = create<StoreState>()(
 
           // Get window size, use defaults or provided size
           const windowSize = windowData.size || { width: 800, height: 600 };
-
+          
           // Ensure window fits within viewport
-          const viewportWidth =
-            typeof window !== "undefined" ? window.innerWidth : 1200;
-          const viewportHeight =
-            typeof window !== "undefined" ? window.innerHeight : 800;
+          const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
+          const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
           const menuBarHeight = 24;
           const dockHeight = 80;
-
+          
           // Constrain size to fit in viewport
-          const constrainedWidth = Math.min(
-            windowSize.width,
-            viewportWidth - 40
-          );
-          const constrainedHeight = Math.min(
-            windowSize.height,
-            viewportHeight - menuBarHeight - dockHeight - 20
-          );
-
+          const constrainedWidth = Math.min(windowSize.width, viewportWidth - 40);
+          const constrainedHeight = Math.min(windowSize.height, viewportHeight - menuBarHeight - dockHeight - 20);
+          
           // Ensure position keeps window visible
           const maxX = viewportWidth - constrainedWidth - 20;
           const maxY = viewportHeight - constrainedHeight - dockHeight;

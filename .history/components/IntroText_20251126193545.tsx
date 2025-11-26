@@ -100,17 +100,17 @@ export default function IntroText() {
     if (containerRef.current) {
       for (let i = 0; i < 25; i++) {
         const particle = document.createElement("div");
-        const size = Math.random() * 8 + 4; // 4-12px size (increased)
+        const size = Math.random() * 4 + 2; // 2-6px size
         particle.className = "absolute rounded-full particle";
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.backgroundColor =
           i % 3 === 0
-            ? "rgba(59, 130, 246, 0.8)" // Blue
+            ? "rgba(59, 130, 246, 0.7)" // Blue
             : i % 3 === 1
-            ? "rgba(139, 92, 246, 0.7)" // Purple
-            : "rgba(56, 189, 248, 0.7)"; // Cyan
-        particle.style.boxShadow = "0 0 15px currentColor";
+            ? "rgba(139, 92, 246, 0.6)" // Purple
+            : "rgba(56, 189, 248, 0.6)"; // Cyan
+        particle.style.boxShadow = "0 0 10px currentColor";
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         containerRef.current.appendChild(particle);

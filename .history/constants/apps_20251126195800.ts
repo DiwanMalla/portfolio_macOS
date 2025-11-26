@@ -88,7 +88,7 @@ export const windowRegistry: WindowRegistry = {
     id: "blog",
     title: "Blog",
     component: "blog",
-    icon: "/images/figma.png",
+    icon: "/images/blog.png",
     category: "content",
     defaultSize: { width: 900, height: 620 },
     defaultPosition: { x: 150, y: 80 },
@@ -162,7 +162,7 @@ export const desktopShortcuts: DesktopShortcut[] = [
   {
     id: "blog-folder",
     label: "Blog",
-    icon: "/images/figma.png",
+    icon: "/images/blog.png",
     target: "blog",
     type: "folder",
   },

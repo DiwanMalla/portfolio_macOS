@@ -100,17 +100,16 @@ export default function IntroText() {
     if (containerRef.current) {
       for (let i = 0; i < 25; i++) {
         const particle = document.createElement("div");
-        const size = Math.random() * 8 + 4; // 4-12px size (increased)
+        const size = Math.random() * 4 + 2; // 2-6px size
         particle.className = "absolute rounded-full particle";
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
-        particle.style.backgroundColor =
-          i % 3 === 0
-            ? "rgba(59, 130, 246, 0.8)" // Blue
-            : i % 3 === 1
-            ? "rgba(139, 92, 246, 0.7)" // Purple
-            : "rgba(56, 189, 248, 0.7)"; // Cyan
-        particle.style.boxShadow = "0 0 15px currentColor";
+        particle.style.backgroundColor = i % 3 === 0 
+          ? "rgba(59, 130, 246, 0.7)"  // Blue
+          : i % 3 === 1 
+          ? "rgba(139, 92, 246, 0.6)"  // Purple
+          : "rgba(56, 189, 248, 0.6)"; // Cyan
+        particle.style.boxShadow = "0 0 10px currentColor";
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         containerRef.current.appendChild(particle);
@@ -134,22 +133,22 @@ export default function IntroText() {
       ref={containerRef}
       className="absolute inset-0 flex flex-col items-center justify-center z-0 select-none overflow-hidden pointer-events-none"
     >
-      {/* Mouse follow glow effect - more visible */}
+      {/* Mouse follow glow effect - fixed position to follow cursor globally */}
       <div
         ref={glowRef}
-        className="fixed w-[500px] h-[500px] rounded-full pointer-events-none z-50"
+        className="fixed w-[400px] h-[400px] rounded-full pointer-events-none z-50"
         style={{
           background:
-            "radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(139, 92, 246, 0.2) 35%, rgba(56, 189, 248, 0.1) 50%, transparent 70%)",
+            "radial-gradient(circle, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.12) 30%, transparent 60%)",
           transform: "translate(-50%, -50%)",
-          filter: "blur(30px)",
+          filter: "blur(40px)",
           left: 0,
           top: 0,
         }}
       />
 
-      {/* Ambient glow behind name - brighter */}
-      <div className="absolute w-[600px] h-[200px] bg-blue-500/25 rounded-full blur-[100px] animate-pulse" />
+      {/* Ambient glow behind name */}
+      <div className="absolute w-[500px] h-[150px] bg-blue-500/15 rounded-full blur-[80px] animate-pulse" />
 
       <div className="overflow-hidden group">
         <h1

@@ -10,13 +10,12 @@ import { X, Minus, Maximize2 } from "lucide-react";
 import Terminal from "./windows/Terminal";
 import Safari from "./windows/Safari";
 import Photos from "./windows/Photos";
-import Blog from "./windows/Blog";
+import Figma from "./windows/Figma";
 import Finder from "./windows/Finder";
 import Resume from "./windows/Resume";
 import Contact from "./windows/Contact";
 import ProjectDetail from "./windows/ProjectDetail";
 import Trash from "./windows/Trash";
-import AboutMe from "./windows/AboutMe";
 
 gsap.registerPlugin(Draggable);
 
@@ -25,13 +24,12 @@ const windowComponents: Record<string, React.ComponentType<any>> = {
   terminal: Terminal,
   safari: Safari,
   photos: Photos,
-  blog: Blog,
+  figma: Figma,
   finder: Finder,
   resume: Resume,
   contact: Contact,
   projectDetail: ProjectDetail,
   trash: Trash,
-  aboutme: AboutMe,
 };
 
 interface WindowProps {
@@ -138,8 +136,8 @@ export default function Window({ windowData }: WindowProps) {
   if (windowData.isMinimized) return null;
 
   const style: React.CSSProperties = {
-    left: windowData.isMaximized ? 0 : windowData.position?.x,
-    top: windowData.isMaximized ? 24 : windowData.position?.y,
+    left: windowData.position?.x,
+    top: windowData.position?.y,
     width: windowData.isMaximized ? "100vw" : windowData.size?.width,
     height: windowData.isMaximized
       ? "calc(100vh - 24px)"

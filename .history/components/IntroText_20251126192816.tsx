@@ -13,11 +13,17 @@ export default function IntroText() {
   const glowRef = useRef<HTMLDivElement>(null);
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [showCursor, setShowCursor] = useState(true);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   // Track mouse position globally on window
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
-      // Animate glow smoothly to follow cursor
+      setMousePosition({
+        x: e.clientX,
+        y: e.clientY,
+      });
+
+      // Animate glow smoothly
       if (glowRef.current) {
         gsap.to(glowRef.current, {
           left: e.clientX,
@@ -96,31 +102,21 @@ export default function IntroText() {
 
     setTimeout(typeWriter, 1600);
 
-    // Floating particles - more visible
+    // Subtle floating particles
     if (containerRef.current) {
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 12; i++) {
         const particle = document.createElement("div");
-        const size = Math.random() * 8 + 4; // 4-12px size (increased)
-        particle.className = "absolute rounded-full particle";
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.backgroundColor =
-          i % 3 === 0
-            ? "rgba(59, 130, 246, 0.8)" // Blue
-            : i % 3 === 1
-            ? "rgba(139, 92, 246, 0.7)" // Purple
-            : "rgba(56, 189, 248, 0.7)"; // Cyan
-        particle.style.boxShadow = "0 0 15px currentColor";
+        particle.className =
+          "absolute w-1 h-1 rounded-full bg-blue-400/40 particle";
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         containerRef.current.appendChild(particle);
 
         gsap.to(particle, {
-          x: "random(-120, 120)",
-          y: "random(-120, 120)",
-          opacity: "random(0.3, 0.9)",
-          scale: "random(0.8, 1.5)",
-          duration: "random(3, 6)",
+          x: "random(-80, 80)",
+          y: "random(-80, 80)",
+          opacity: "random(0.1, 0.5)",
+          duration: "random(4, 7)",
           repeat: -1,
           yoyo: true,
           ease: "sine.inOut",
@@ -132,24 +128,35 @@ export default function IntroText() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 flex flex-col items-center justify-center z-0 select-none overflow-hidden pointer-events-none"
+      className="absolute inset-0 flex flex-col items-center justify-center z-0 select-none overflow-hidden"
+      onMouseMove={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setMousePosition({
+          x: e.clientX - rect.left,
+          y: e.clientY - rect.top,
+        });
+        setIsHovering(true);
+      }}
+      onMouseLeave={() => setIsHovering(false)}
     >
-      {/* Mouse follow glow effect - more visible */}
+      {/* Mouse follow glow effect */}
       <div
         ref={glowRef}
-        className="fixed w-[500px] h-[500px] rounded-full pointer-events-none z-50"
+        className="absolute w-[400px] h-[400px] rounded-full pointer-events-none"
         style={{
           background:
-            "radial-gradient(circle, rgba(59, 130, 246, 0.35) 0%, rgba(139, 92, 246, 0.2) 35%, rgba(56, 189, 248, 0.1) 50%, transparent 70%)",
+            "radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(139, 92, 246, 0.15) 30%, transparent 60%)",
+          left: mousePosition.x,
+          top: mousePosition.y,
           transform: "translate(-50%, -50%)",
+          opacity: isHovering ? 1 : 0,
+          transition: "opacity 0.3s ease",
           filter: "blur(30px)",
-          left: 0,
-          top: 0,
         }}
       />
 
-      {/* Ambient glow behind name - brighter */}
-      <div className="absolute w-[600px] h-[200px] bg-blue-500/25 rounded-full blur-[100px] animate-pulse" />
+      {/* Ambient glow behind name */}
+      <div className="absolute w-[500px] h-[150px] bg-blue-500/15 rounded-full blur-[80px] animate-pulse" />
 
       <div className="overflow-hidden group">
         <h1
@@ -185,12 +192,25 @@ export default function IntroText() {
         </p>
       </div>
 
-      {/* Decorative code brackets */}
-      <div className="absolute left-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight">
+      {/* Decorative code brackets - with hover effect */}
+      <div className="absolute left-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight transition-all duration-500 hover:text-blue-500/30 hover:scale-110">
         {"<"}
       </div>
-      <div className="absolute right-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight">
+      <div className="absolute right-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight transition-all duration-500 hover:text-blue-500/30 hover:scale-110">
         {"/>"}
+      </div>
+
+      {/* Interactive ripple rings on hover */}
+      <div
+        className="absolute pointer-events-none transition-all duration-700"
+        style={{
+          left: mousePosition.x,
+          top: mousePosition.y,
+          transform: "translate(-50%, -50%)",
+          opacity: isHovering ? 0.3 : 0,
+        }}
+      >
+        <div className="w-16 h-16 rounded-full border border-blue-400/30 animate-ping" />
       </div>
     </div>
   );

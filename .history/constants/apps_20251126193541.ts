@@ -14,16 +14,6 @@ export interface WindowRegistry {
 }
 
 export const windowRegistry: WindowRegistry = {
-  aboutme: {
-    id: "aboutme",
-    title: "About Me",
-    component: "aboutme",
-    icon: "/images/folder.png",
-    category: "system",
-    defaultSize: { width: 800, height: 650 },
-    defaultPosition: { x: 120, y: 50 },
-    description: "My professional profile and background.",
-  },
   contact: {
     id: "contact",
     title: "Contact Me",
@@ -84,15 +74,15 @@ export const windowRegistry: WindowRegistry = {
     defaultPosition: { x: 200, y: 160 },
     description: "Gallery of projects and mood boards.",
   },
-  blog: {
-    id: "blog",
-    title: "Blog",
-    component: "blog",
+  figma: {
+    id: "figma",
+    title: "Figma",
+    component: "figma",
     icon: "/images/figma.png",
-    category: "content",
-    defaultSize: { width: 900, height: 620 },
-    defaultPosition: { x: 150, y: 80 },
-    description: "Thoughts, tutorials and insights.",
+    category: "design",
+    defaultSize: { width: 960, height: 620 },
+    defaultPosition: { x: 180, y: 140 },
+    description: "Design explorations and principles.",
   },
   trash: {
     id: "trash",
@@ -132,7 +122,7 @@ export const dockApps: DockApp[] = [
   windowDockEntry("safari"),
   windowDockEntry("terminal"),
   windowDockEntry("photos"),
-  windowDockEntry("blog"),
+  windowDockEntry("figma"),
   windowDockEntry("trash"),
 ];
 
@@ -149,7 +139,7 @@ export const desktopShortcuts: DesktopShortcut[] = [
     id: "about-folder",
     label: "About Me",
     icon: "/images/folder.png",
-    target: "aboutme",
+    target: "safari",
     type: "folder",
   },
   {
@@ -157,13 +147,6 @@ export const desktopShortcuts: DesktopShortcut[] = [
     label: "Projects",
     icon: "/images/folder.png",
     target: "finder",
-    type: "folder",
-  },
-  {
-    id: "blog-folder",
-    label: "Blog",
-    icon: "/images/figma.png",
-    target: "blog",
     type: "folder",
   },
   {

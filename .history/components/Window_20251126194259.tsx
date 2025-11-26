@@ -10,7 +10,7 @@ import { X, Minus, Maximize2 } from "lucide-react";
 import Terminal from "./windows/Terminal";
 import Safari from "./windows/Safari";
 import Photos from "./windows/Photos";
-import Blog from "./windows/Blog";
+import Figma from "./windows/Figma";
 import Finder from "./windows/Finder";
 import Resume from "./windows/Resume";
 import Contact from "./windows/Contact";
@@ -25,7 +25,7 @@ const windowComponents: Record<string, React.ComponentType<any>> = {
   terminal: Terminal,
   safari: Safari,
   photos: Photos,
-  blog: Blog,
+  figma: Figma,
   finder: Finder,
   resume: Resume,
   contact: Contact,

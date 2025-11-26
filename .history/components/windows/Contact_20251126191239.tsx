@@ -185,9 +185,7 @@ export default function Contact() {
 
             {error && (
               <div className="p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-md">
-                <p className="text-sm text-red-600 dark:text-red-400">
-                  {error}
-                </p>
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
               </div>
             )}
 

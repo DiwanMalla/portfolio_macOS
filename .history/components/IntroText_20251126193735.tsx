@@ -96,30 +96,30 @@ export default function IntroText() {
 
     setTimeout(typeWriter, 1600);
 
-    // Floating particles - more visible
+    // Floating particles - large and visible
     if (containerRef.current) {
-      for (let i = 0; i < 25; i++) {
+      for (let i = 0; i < 30; i++) {
         const particle = document.createElement("div");
-        const size = Math.random() * 8 + 4; // 4-12px size (increased)
+        const size = Math.random() * 16 + 6; // 6-22px size (much larger)
         particle.className = "absolute rounded-full particle";
         particle.style.width = `${size}px`;
         particle.style.height = `${size}px`;
         particle.style.backgroundColor =
           i % 3 === 0
-            ? "rgba(59, 130, 246, 0.8)" // Blue
+            ? "rgba(59, 130, 246, 0.9)" // Blue
             : i % 3 === 1
-            ? "rgba(139, 92, 246, 0.7)" // Purple
-            : "rgba(56, 189, 248, 0.7)"; // Cyan
-        particle.style.boxShadow = "0 0 15px currentColor";
+            ? "rgba(139, 92, 246, 0.85)" // Purple
+            : "rgba(56, 189, 248, 0.85)"; // Cyan
+        particle.style.boxShadow = "0 0 25px currentColor, 0 0 50px currentColor";
         particle.style.left = `${Math.random() * 100}%`;
         particle.style.top = `${Math.random() * 100}%`;
         containerRef.current.appendChild(particle);
 
         gsap.to(particle, {
-          x: "random(-120, 120)",
-          y: "random(-120, 120)",
-          opacity: "random(0.3, 0.9)",
-          scale: "random(0.8, 1.5)",
+          x: "random(-150, 150)",
+          y: "random(-150, 150)",
+          opacity: "random(0.5, 1)",
+          scale: "random(0.8, 2)",
           duration: "random(3, 6)",
           repeat: -1,
           yoyo: true,
