@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ProjectsProvider } from "@/contexts/ProjectsContext";
 
@@ -22,17 +21,17 @@ export const metadata: Metadata = {
     "Software Engineer",
     "AI Developer",
   ],
-  authors: [{ name: "Diwan Malla", url: "https://portfolio-mac-os-three.vercel.app" }],
+  authors: [{ name: "Diwan Malla", url: "https://www.diwanmalla.com.au" }],
   creator: "Diwan Malla",
   publisher: "Diwan Malla",
-  metadataBase: new URL("https://portfolio-mac-os-three.vercel.app"),
+  metadataBase: new URL("https://www.diwanmalla.com.au"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_AU",
-    url: "https://portfolio-mac-os-three.vercel.app",
+    url: "https://www.diwanmalla.com.au",
     siteName: "Diwan Malla Portfolio",
     title: "Diwan Malla | Full-Stack Developer",
     description:
@@ -67,8 +66,9 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icons/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico", sizes: "32x32" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icons/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icons/icon-512.png", sizes: "512x512", type: "image/png" },
     ],
     apple: [
       { url: "/icons/apple-icon.png", sizes: "180x180", type: "image/png" },
@@ -107,7 +107,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <ProjectsProvider>{children}</ProjectsProvider>
-        <Analytics />
       </body>
     </html>
   );

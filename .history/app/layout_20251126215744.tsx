@@ -107,7 +107,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <ProjectsProvider>{children}</ProjectsProvider>
-        <Analytics />
       </body>
     </html>
   );

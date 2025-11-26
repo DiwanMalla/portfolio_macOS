@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { ProjectsProvider } from "@/contexts/ProjectsContext";
 
@@ -22,17 +21,17 @@ export const metadata: Metadata = {
     "Software Engineer",
     "AI Developer",
   ],
-  authors: [{ name: "Diwan Malla", url: "https://portfolio-mac-os-three.vercel.app" }],
+  authors: [{ name: "Diwan Malla", url: "https://www.diwanmalla.com.au" }],
   creator: "Diwan Malla",
   publisher: "Diwan Malla",
-  metadataBase: new URL("https://portfolio-mac-os-three.vercel.app"),
+  metadataBase: new URL("https://www.diwanmalla.com.au"),
   alternates: {
     canonical: "/",
   },
   openGraph: {
     type: "website",
     locale: "en_AU",
-    url: "https://portfolio-mac-os-three.vercel.app",
+    url: "https://www.diwanmalla.com.au",
     siteName: "Diwan Malla Portfolio",
     title: "Diwan Malla | Full-Stack Developer",
     description:
@@ -107,7 +106,6 @@ export default function RootLayout({
       </head>
       <body className="antialiased">
         <ProjectsProvider>{children}</ProjectsProvider>
-        <Analytics />
       </body>
     </html>
   );
