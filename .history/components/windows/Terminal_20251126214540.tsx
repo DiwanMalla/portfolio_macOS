@@ -182,15 +182,9 @@ export default function Terminal() {
           >
             {item.type === "input" && (
               <div className="flex gap-2 items-start group">
-                <span className="text-green-400 animate-pulse text-sm sm:text-base">
-                  💬
-                </span>
-                <span className="text-blue-400 font-bold hidden sm:inline">
-                  ~
-                </span>
-                <span className="text-white flex-1 text-xs sm:text-sm wrap-break-word">
-                  {item.text}
-                </span>
+                <span className="text-green-400 animate-pulse text-sm sm:text-base">💬</span>
+                <span className="text-blue-400 font-bold hidden sm:inline">~</span>
+                <span className="text-white flex-1 text-xs sm:text-sm break-words">{item.text}</span>
               </div>
             )}
             {item.type === "output" && (
@@ -205,7 +199,7 @@ export default function Terminal() {
                     <span className="animate-bounce inline-block">🤖</span>
                     {profile.name.split(" ")[0]}
                   </span>
-                  <div className="text-gray-200 leading-relaxed text-xs sm:text-sm wrap-break-word">
+                  <div className="text-gray-200 leading-relaxed text-xs sm:text-sm break-words">
                     {item.text}
                   </div>
                 </div>
@@ -264,7 +258,7 @@ export default function Terminal() {
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
-          className="p-2.5 sm:p-3 bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-xl transition-colors active:scale-95 shrink-0"
+          className="p-2.5 sm:p-3 bg-cyan-600 hover:bg-cyan-500 disabled:bg-gray-700 disabled:text-gray-500 text-white rounded-xl transition-colors active:scale-95 flex-shrink-0"
         >
           <Send size={18} className="sm:w-5 sm:h-5" />
         </button>

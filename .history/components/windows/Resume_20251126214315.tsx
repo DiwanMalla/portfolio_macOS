@@ -13,14 +13,13 @@ export default function Resume() {
     const checkMobile = () => {
       // Check if screen is small or if it's a touch device
       const isSmallScreen = window.innerWidth < 640;
-      const isTouchDevice =
-        "ontouchstart" in window || navigator.maxTouchPoints > 0;
+      const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
       setIsMobile(isSmallScreen || isTouchDevice);
     };
-
+    
     checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   // For mobile/small screens, show a better fallback
@@ -83,8 +82,7 @@ export default function Resume() {
 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
                   <p className="text-gray-600 dark:text-gray-300 text-sm text-center leading-relaxed">
-                    View my professional resume with experience, skills,
-                    education, and certifications.
+                    View my professional resume with experience, skills, education, and certifications.
                   </p>
                 </div>
 
@@ -115,15 +113,11 @@ export default function Resume() {
             <div className="mt-6 grid grid-cols-2 gap-3">
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
                 <p className="text-2xl font-bold text-blue-500">4+</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Years Experience
-                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Years Experience</p>
               </div>
               <div className="bg-white dark:bg-gray-800 rounded-xl p-4 text-center">
                 <p className="text-2xl font-bold text-green-500">8+</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                  Projects
-                </p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">Projects</p>
               </div>
             </div>
 
@@ -179,9 +173,7 @@ export default function Resume() {
           <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-900">
             <div className="text-center">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500 mx-auto mb-3" />
-              <p className="text-sm text-gray-500 dark:text-gray-400">
-                Loading PDF...
-              </p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">Loading PDF...</p>
             </div>
           </div>
         )}
@@ -191,7 +183,7 @@ export default function Resume() {
           onLoad={() => setIsLoading(false)}
           onError={() => setShowPdfFallback(true)}
           title="Resume PDF"
-          style={{ minHeight: "400px" }}
+          style={{ minHeight: '400px' }}
         />
       </div>
     </div>

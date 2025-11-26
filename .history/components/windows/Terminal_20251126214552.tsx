@@ -182,15 +182,9 @@ export default function Terminal() {
           >
             {item.type === "input" && (
               <div className="flex gap-2 items-start group">
-                <span className="text-green-400 animate-pulse text-sm sm:text-base">
-                  💬
-                </span>
-                <span className="text-blue-400 font-bold hidden sm:inline">
-                  ~
-                </span>
-                <span className="text-white flex-1 text-xs sm:text-sm wrap-break-word">
-                  {item.text}
-                </span>
+                <span className="text-green-400 animate-pulse text-sm sm:text-base">💬</span>
+                <span className="text-blue-400 font-bold hidden sm:inline">~</span>
+                <span className="text-white flex-1 text-xs sm:text-sm wrap-break-word">{item.text}</span>
               </div>
             )}
             {item.type === "output" && (
