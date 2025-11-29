@@ -19,6 +19,7 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
+import SkillsConstellation from "../SkillsConstellation";
 
 interface CollapsibleSectionProps {
   title: string;
@@ -90,6 +91,7 @@ function SkillBadge({
 }
 
 export default function AboutMe() {
+  const [skillsView, setSkillsView] = useState<"3d" | "list">("3d");
   const profile = {
     personal: {
       name: "Diwan Malla",
@@ -554,59 +556,88 @@ export default function AboutMe() {
           icon={<Code size={20} />}
           defaultOpen={true}
         >
-          <div className="space-y-4">
-            <div>
-              <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                🏆 Expert
-              </h4>
-              <div className="flex flex-wrap">
-                {profile.skills.expert.map((skill) => (
-                  <SkillBadge key={skill} level="expert">
-                    {skill}
-                  </SkillBadge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                🚀 Advanced
-              </h4>
-              <div className="flex flex-wrap">
-                {profile.skills.advanced.map((skill) => (
-                  <SkillBadge key={skill} level="advanced">
-                    {skill}
-                  </SkillBadge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                💪 Intermediate
-              </h4>
-              <div className="flex flex-wrap">
-                {profile.skills.intermediate.map((skill) => (
-                  <SkillBadge key={skill} level="intermediate">
-                    {skill}
-                  </SkillBadge>
-                ))}
-              </div>
-            </div>
-            <div>
-              <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
-                📚 Currently Learning
-              </h4>
-              <div className="flex flex-wrap">
-                {profile.skills.learning.map((skill) => (
-                  <span
-                    key={skill}
-                    className="inline-block px-2.5 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full mr-2 mb-2 border border-purple-300 dark:border-purple-700"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
+          <div className="mb-4 flex justify-end">
+            <div className="inline-flex bg-gray-100 dark:bg-gray-800 rounded-lg p-1 border border-gray-200 dark:border-gray-700">
+              <button
+                onClick={() => setSkillsView("3d")}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                  skillsView === "3d"
+                    ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                }`}
+              >
+                3D Constellation
+              </button>
+              <button
+                onClick={() => setSkillsView("list")}
+                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                  skillsView === "list"
+                    ? "bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm"
+                    : "text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
+                }`}
+              >
+                List View
+              </button>
             </div>
           </div>
+
+          {skillsView === "3d" ? (
+            <SkillsConstellation />
+          ) : (
+            <div className="space-y-4 animate-in fade-in">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  🏆 Expert
+                </h4>
+                <div className="flex flex-wrap">
+                  {profile.skills.expert.map((skill) => (
+                    <SkillBadge key={skill} level="expert">
+                      {skill}
+                    </SkillBadge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  🚀 Advanced
+                </h4>
+                <div className="flex flex-wrap">
+                  {profile.skills.advanced.map((skill) => (
+                    <SkillBadge key={skill} level="advanced">
+                      {skill}
+                    </SkillBadge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  💪 Intermediate
+                </h4>
+                <div className="flex flex-wrap">
+                  {profile.skills.intermediate.map((skill) => (
+                    <SkillBadge key={skill} level="intermediate">
+                      {skill}
+                    </SkillBadge>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <h4 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">
+                  📚 Currently Learning
+                </h4>
+                <div className="flex flex-wrap">
+                  {profile.skills.learning.map((skill) => (
+                    <span
+                      key={skill}
+                      className="inline-block px-2.5 py-1 text-xs font-medium bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 rounded-full mr-2 mb-2 border border-purple-300 dark:border-purple-700"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
         </CollapsibleSection>
 
         {/* Experience */}
