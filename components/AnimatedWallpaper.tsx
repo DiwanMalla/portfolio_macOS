@@ -2,17 +2,30 @@
 
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import { DayNightTheme } from "@/hooks/useDayNightCycle";
 
-export default function AnimatedWallpaper() {
+interface AnimatedWallpaperProps {
+  theme: DayNightTheme;
+}
+
+export default function AnimatedWallpaper({ theme }: AnimatedWallpaperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const sceneRef = useRef<THREE.Scene | null>(null);
+  const lightsRef = useRef<{
+    ambient: THREE.AmbientLight | null;
+    point1: THREE.PointLight | null;
+    point2: THREE.PointLight | null;
+  }>({ ambient: null, point1: null, point2: null });
 
   useEffect(() => {
     if (!containerRef.current) return;
 
     // Scene setup
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color("#050505"); // Deep dark background
-    scene.fog = new THREE.FogExp2("#050505", 0.02);
+    sceneRef.current = scene;
+    
+    scene.background = new THREE.Color(theme.backgroundColor);
+    scene.fog = new THREE.FogExp2(theme.fogColor, 0.02);
 
     const camera = new THREE.PerspectiveCamera(
       75,
@@ -28,16 +41,19 @@ export default function AnimatedWallpaper() {
     containerRef.current.appendChild(renderer.domElement);
 
     // Lights
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+    const ambientLight = new THREE.AmbientLight(0xffffff, theme.ambientLight);
     scene.add(ambientLight);
+    lightsRef.current.ambient = ambientLight;
 
-    const pointLight1 = new THREE.PointLight(0x00ffff, 2, 50);
+    const pointLight1 = new THREE.PointLight(theme.pointLight1Color, 2, 50);
     pointLight1.position.set(10, 10, 10);
     scene.add(pointLight1);
+    lightsRef.current.point1 = pointLight1;
 
-    const pointLight2 = new THREE.PointLight(0xff00ff, 2, 50);
+    const pointLight2 = new THREE.PointLight(theme.pointLight2Color, 2, 50);
     pointLight2.position.set(-10, -10, 10);
     scene.add(pointLight2);
+    lightsRef.current.point2 = pointLight2;
 
     // Objects
     const objects: THREE.Mesh[] = [];
@@ -140,6 +156,23 @@ export default function AnimatedWallpaper() {
       renderer.dispose();
     };
   }, []);
+
+  // Update lights when theme changes
+  useEffect(() => {
+    if (lightsRef.current.ambient) {
+      lightsRef.current.ambient.intensity = theme.ambientLight;
+    }
+    if (lightsRef.current.point1) {
+      lightsRef.current.point1.color.setHex(theme.pointLight1Color);
+    }
+    if (lightsRef.current.point2) {
+      lightsRef.current.point2.color.setHex(theme.pointLight2Color);
+    }
+    if (sceneRef.current) {
+      sceneRef.current.background = new THREE.Color(theme.backgroundColor);
+      sceneRef.current.fog = new THREE.FogExp2(theme.fogColor, 0.02);
+    }
+  }, [theme]);
 
   return (
     <div
