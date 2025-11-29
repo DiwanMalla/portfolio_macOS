@@ -3,14 +3,21 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { heroContent } from "@/constants/profile";
+import { Volume2, VolumeX } from "lucide-react";
 
-export default function IntroText() {
+interface IntroTextProps {
+  isMuted: boolean;
+  onToggleSound: () => void;
+}
+
+export default function IntroText({ isMuted, onToggleSound }: IntroTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLHeadingElement>(null);
   const titleRef = useRef<HTMLParagraphElement>(null);
   const lineRef = useRef<HTMLDivElement>(null);
   const cursorRef = useRef<HTMLSpanElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
+  const soundButtonRef = useRef<HTMLButtonElement>(null);
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [showCursor, setShowCursor] = useState(true);
 
@@ -91,6 +98,15 @@ export default function IntroText() {
         setInterval(() => {
           setShowCursor((prev) => !prev);
         }, 530);
+        
+        // Animate sound button in after title is done
+        if (soundButtonRef.current) {
+          gsap.fromTo(
+            soundButtonRef.current,
+            { y: 20, opacity: 0, scale: 0.8 },
+            { y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "back.out(1.7)", delay: 0.3 }
+          );
+        }
       }
     };
 
@@ -132,7 +148,7 @@ export default function IntroText() {
   return (
     <div
       ref={containerRef}
-      className="absolute inset-0 flex flex-col items-center justify-center z-0 select-none overflow-hidden pointer-events-none"
+      className="absolute inset-0 flex flex-col items-center justify-center z-0 select-none overflow-hidden"
     >
       {/* Mouse follow glow effect - more visible */}
       <div
@@ -151,7 +167,7 @@ export default function IntroText() {
       {/* Ambient glow behind name - brighter */}
       <div className="absolute w-[600px] h-[200px] bg-blue-500/25 rounded-full blur-[100px] animate-pulse" />
 
-      <div className="overflow-hidden group">
+      <div className="overflow-hidden group pointer-events-none">
         <h1
           ref={nameRef}
           className="text-7xl md:text-9xl font-bold text-white tracking-tight drop-shadow-2xl pb-4 transition-all duration-300 hover:scale-[1.02]"
@@ -166,10 +182,10 @@ export default function IntroText() {
 
       <div
         ref={lineRef}
-        className="w-40 h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent rounded-full mb-6 transition-all duration-300 hover:w-52 hover:h-1.5"
+        className="w-40 h-1 bg-linear-to-r from-transparent via-blue-500 to-transparent rounded-full mb-6 transition-all duration-300 hover:w-52 hover:h-1.5 pointer-events-none"
       />
 
-      <div className="overflow-hidden h-10">
+      <div className="overflow-hidden h-10 pointer-events-none">
         <p
           ref={titleRef}
           className="text-xl md:text-2xl text-white/90 font-medium uppercase tracking-[0.25em] drop-shadow-lg flex items-center justify-center transition-all duration-300 hover:tracking-[0.35em] hover:text-white"
@@ -185,11 +201,41 @@ export default function IntroText() {
         </p>
       </div>
 
+      {/* Sound Toggle Button */}
+      <button
+        ref={soundButtonRef}
+        onClick={onToggleSound}
+        className="mt-8 px-6 py-3 rounded-full bg-gradient-to-r from-blue-500/20 to-purple-600/20 backdrop-blur-md border-2 border-white/20 hover:border-white/40 transition-all duration-300 hover:scale-110 active:scale-95 group/sound pointer-events-auto opacity-0"
+        title={isMuted ? "Enable ambient sounds" : "Disable ambient sounds"}
+      >
+        <div className="flex items-center gap-3">
+          <div className="relative">
+            {isMuted ? (
+              <VolumeX className="w-5 h-5 text-white/80 group-hover/sound:text-white transition-colors" />
+            ) : (
+              <>
+                <Volume2 className="w-5 h-5 text-white/80 group-hover/sound:text-white transition-colors" />
+                {/* Animated sound waves */}
+                <div className="absolute -right-1 top-1/2 -translate-y-1/2">
+                  <div className="w-1 h-1 bg-blue-400 rounded-full animate-ping" style={{ animationDuration: "1.5s" }} />
+                </div>
+                <div className="absolute -right-2 top-1/2 -translate-y-1/2">
+                  <div className="w-1 h-1 bg-purple-400 rounded-full animate-ping" style={{ animationDuration: "2s", animationDelay: "0.3s" }} />
+                </div>
+              </>
+            )}
+          </div>
+          <span className="text-white/80 group-hover/sound:text-white font-medium text-sm transition-colors">
+            {isMuted ? "Enable Ambient Sounds" : "Ambient Sounds Playing"}
+          </span>
+        </div>
+      </button>
+
       {/* Decorative code brackets */}
-      <div className="absolute left-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight">
+      <div className="absolute left-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight pointer-events-none">
         {"<"}
       </div>
-      <div className="absolute right-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight">
+      <div className="absolute right-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight pointer-events-none">
         {"/>"}
       </div>
     </div>

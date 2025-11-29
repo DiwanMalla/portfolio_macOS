@@ -11,6 +11,8 @@ import Dock from "./Dock";
 import WindowManager from "./WindowManager";
 import IntroText from "./IntroText";
 import DesktopGrid from "./DesktopGrid";
+import { useDayNightCycle } from "@/hooks/useDayNightCycle";
+import { useAmbientSound } from "@/hooks/useAmbientSound";
 
 type DeviceType = "mobile" | "tablet" | "desktop";
 
@@ -37,6 +39,8 @@ function getServerSnapshot(): DeviceType | null {
 
 export default function ResponsiveLayout() {
   const [mounted, setMounted] = useState(false);
+  const { theme } = useDayNightCycle();
+  const { isMuted, toggleMute } = useAmbientSound(theme.timeOfDay, true);
 
   // Get device type from window width
   const deviceType = useSyncExternalStore(
@@ -78,7 +82,7 @@ export default function ResponsiveLayout() {
   // Desktop view (macOS-style)
   return (
     <Desktop>
-      <IntroText />
+      <IntroText isMuted={isMuted} onToggleSound={toggleMute} />
       <DesktopGrid />
       <MenuBar />
       <WindowManager />
