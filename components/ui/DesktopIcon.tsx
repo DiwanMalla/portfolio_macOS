@@ -50,7 +50,9 @@ export default function DesktopIcon({
           src={icon}
           alt={label}
           fill
-          className="object-contain"
+          className={`object-contain ${
+            icon.includes("/icons/3d/") ? "mix-blend-screen" : ""
+          }`}
           draggable={false}
         />
       </div>

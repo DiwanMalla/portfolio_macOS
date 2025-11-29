@@ -86,7 +86,11 @@ export default function Dock() {
                       alt={app.name}
                       width={48}
                       height={48}
-                      className="w-full h-full object-contain"
+                      className={`w-full h-full object-contain ${
+                        app.icon.includes("/icons/3d/")
+                          ? "mix-blend-screen"
+                          : ""
+                      }`}
                     />
                   </div>
 

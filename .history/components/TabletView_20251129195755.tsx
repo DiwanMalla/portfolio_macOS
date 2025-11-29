@@ -49,22 +49,9 @@ const TabletStatusBar = ({ light = false }: { light?: boolean }) => {
         </span>
       </div>
       <div className="flex items-center gap-3">
-        <button
-          onClick={toggleSpotlight}
-          className="p-0.5 hover:bg-black/10 dark:hover:bg-white/10 rounded"
-        >
-          <svg
-            className="w-3.5 h-3.5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-            />
+        <button onClick={toggleSpotlight} className="p-0.5 hover:bg-black/10 dark:hover:bg-white/10 rounded">
+          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </button>
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
@@ -235,20 +222,9 @@ type NavigationState =
 
 export default function TabletView() {
   const { projects } = useProjects();
-  const { toggleSpotlight, activeWindow, openWindow, closeWindow } = useStore();
   const [navigation, setNavigation] = useState<NavigationState>({
     type: "intro",
   });
-
-  // Sync with global store (for Spotlight and consistency)
-  useEffect(() => {
-    if (activeWindow) {
-      setNavigation({ type: "app", appId: activeWindow });
-    } else if (navigation.type === "app") {
-      // If activeWindow is null but we are in app view, go home
-      setNavigation({ type: "home" });
-    }
-  }, [activeWindow]);
 
   // Convert windowRegistry to array
   const apps = Object.values(windowRegistry);
@@ -258,25 +234,13 @@ export default function TabletView() {
   };
 
   const handleAppClick = (appId: string) => {
-    const config = windowRegistry[appId];
-    if (config) {
-      openWindow({
-        id: config.id,
-        title: config.title,
-        component: config.component,
-        size: config.defaultSize,
-        position: config.defaultPosition,
-      });
-    }
+    setNavigation({ type: "app", appId });
   };
 
   const handleBack = () => {
     if (navigation.type === "project") {
       setNavigation({ type: "app", appId: "finder" });
     } else {
-      if (navigation.type === "app" && navigation.appId) {
-        closeWindow(navigation.appId);
-      }
       setNavigation({ type: "home" });
     }
   };
@@ -300,24 +264,7 @@ export default function TabletView() {
       return (
         <div className="flex-1 flex flex-col">
           <TabletStatusBar />
-          <div
-            className="flex-1 overflow-auto p-8 overscroll-y-none"
-            onTouchStart={(e) => {
-              e.currentTarget.dataset.touchStartY =
-                e.touches[0].clientY.toString();
-            }}
-            onTouchEnd={(e) => {
-              const startY = parseFloat(
-                e.currentTarget.dataset.touchStartY || "0"
-              );
-              const endY = e.changedTouches[0].clientY;
-              const scrollTop = e.currentTarget.scrollTop;
-
-              if (endY - startY > 50 && scrollTop === 0) {
-                toggleSpotlight();
-              }
-            }}
-          >
+          <div className="flex-1 overflow-auto p-8">
             <div className="grid grid-cols-6 gap-6 justify-items-center max-w-4xl mx-auto">
               {apps.map((app) => (
                 <button
