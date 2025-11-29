@@ -170,7 +170,8 @@ export default function IntroText({ isMuted, onToggleSound }: IntroTextProps) {
       <div className="overflow-hidden group pointer-events-none">
         <h1
           ref={nameRef}
-          className="text-7xl md:text-9xl font-bold text-white tracking-tight drop-shadow-2xl pb-4 transition-all duration-300 hover:scale-[1.02]"
+          className="text-7xl md:text-9xl font-bold text-white tracking-tight drop-shadow-2xl pb-4 transition-all duration-300 hover:scale-[1.02] hologram-text"
+          data-text={heroContent.headline}
           style={{
             textShadow:
               "0 0 40px rgba(59, 130, 246, 0.4), 0 4px 15px rgba(0, 0, 0, 0.2)",

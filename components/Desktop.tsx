@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState, ReactNode } from "react";
 import useStore from "@/store/useStore";
 import { wallpaperMap, defaultWallpaperId } from "@/constants/wallpapers";
@@ -91,6 +92,15 @@ export default function Desktop({ children }: DesktopProps) {
             </div>
           )}
           
+          {/* Floating Tech Kid Character */}
+          <div className="absolute bottom-[5%] right-[5%] w-[200px] h-[200px] md:w-[300px] md:h-[300px] z-[15] pointer-events-none animate-float-around">
+            <img
+              src="/images/tech-kid.png"
+              alt="Tech Kid"
+              className="w-full h-full object-contain drop-shadow-[0_0_30px_rgba(59,130,246,0.6)]"
+            />
+          </div>
+
           {/* Time Indicator */}
           <div className="absolute top-4 right-4 z-20 px-4 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10">
             <div className="flex items-center gap-2 text-white/80 text-sm">
