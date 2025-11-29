@@ -232,6 +232,20 @@ export default function IntroText({ isMuted, onToggleSound }: IntroTextProps) {
         </div>
       </button>
 
+      {/* Hire Me CTA Button */}
+      <a
+        href="mailto:malladipin@gmail.com?subject=Let's Work Together!"
+        className="mt-6 px-8 py-4 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-lg shadow-[0_0_30px_rgba(6,182,212,0.5)] hover:shadow-[0_0_50px_rgba(6,182,212,0.8)] transition-all duration-300 hover:scale-110 active:scale-95 pointer-events-auto animate-pulse"
+        style={{ animationDuration: '3s' }}
+      >
+        <span className="flex items-center gap-2">
+          <span>💼</span>
+          <span>Hire Me</span>
+          <span className="text-2xl">→</span>
+        </span>
+      </a>
+
+
       {/* Decorative code brackets */}
       <div className="absolute left-[8%] top-1/2 -translate-y-1/2 text-blue-500/10 text-8xl font-extralight pointer-events-none">
         {"<"}

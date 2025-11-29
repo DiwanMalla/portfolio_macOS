@@ -94,6 +94,16 @@ export const windowRegistry: WindowRegistry = {
     defaultPosition: { x: 150, y: 80 },
     description: "Thoughts, tutorials and insights.",
   },
+  githubstats: {
+    id: "githubstats",
+    title: "GitHub Stats",
+    component: "githubstats",
+    icon: "/images/github.png",
+    category: "social",
+    defaultSize: { width: 800, height: 700 },
+    defaultPosition: { x: 180, y: 80 },
+    description: "Live GitHub statistics and contribution graph.",
+  },
   trash: {
     id: "trash",
     title: "Trash",
@@ -133,6 +143,7 @@ export const dockApps: DockApp[] = [
   windowDockEntry("terminal"),
   windowDockEntry("photos"),
   windowDockEntry("blog"),
+  windowDockEntry("githubstats"),
   windowDockEntry("trash"),
 ];
 

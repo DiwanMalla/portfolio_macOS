@@ -17,6 +17,7 @@ import Contact from "./windows/Contact";
 import ProjectDetail from "./windows/ProjectDetail";
 import Trash from "./windows/Trash";
 import AboutMe from "./windows/AboutMe";
+import GitHubStats from "./windows/GitHubStats";
 
 gsap.registerPlugin(Draggable);
 
@@ -32,6 +33,7 @@ const windowComponents: Record<string, React.ComponentType<any>> = {
   projectDetail: ProjectDetail,
   trash: Trash,
   aboutme: AboutMe,
+  githubstats: GitHubStats,
 };
 
 interface WindowProps {

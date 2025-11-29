@@ -69,13 +69,13 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: [
-      { url: "/icons/icon.svg", type: "image/svg+xml" },
+      { url: "/icons/diwan-logo.png", type: "image/png" },
       { url: "/favicon.ico", sizes: "32x32" },
     ],
     apple: [
-      { url: "/icons/apple-icon.png", sizes: "180x180", type: "image/png" },
+      { url: "/icons/diwan-logo.png", sizes: "180x180", type: "image/png" },
     ],
-    shortcut: "/favicon.ico",
+    shortcut: "/icons/diwan-logo.png",
   },
   manifest: "/manifest.json",
   category: "technology",
