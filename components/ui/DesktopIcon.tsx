@@ -41,7 +41,7 @@ export default function DesktopIcon({
   return (
     <div
       ref={iconRef}
-      className="absolute flex flex-col items-center gap-1 w-24 p-2 rounded-md hover:bg-white/10 transition-colors cursor-pointer group"
+      className="absolute flex flex-col items-center gap-1 w-24 p-2 rounded-md hover:bg-white/10 transition-colors cursor-pointer group pointer-events-auto"
       style={style}
       onDoubleClick={onDoubleClick}
     >
@@ -50,9 +50,7 @@ export default function DesktopIcon({
           src={icon}
           alt={label}
           fill
-          className={`object-contain ${
-            icon.includes("/icons/3d/") ? "mix-blend-screen" : ""
-          }`}
+          className="object-contain"
           draggable={false}
         />
       </div>
