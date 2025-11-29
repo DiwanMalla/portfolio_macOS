@@ -41,7 +41,7 @@ export const metadata: Metadata = {
       "Interactive macOS-style portfolio showcasing my projects, skills, and AI-powered digital twin. Built with React, Next.js, and TypeScript.",
     images: [
       {
-        url: "/images/og-image.png",
+        url: "/icons/diwan-logo.png",
         width: 1200,
         height: 630,
         alt: "Diwan Malla - Full-Stack Developer Portfolio",
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     title: "Diwan Malla | Full-Stack Developer",
     description:
       "Interactive macOS-style portfolio with AI digital twin. Built with React, Next.js & TypeScript.",
-    images: ["/images/og-image.png"],
+    images: ["/icons/diwan-logo.png"],
     creator: "@diwanmalla",
   },
   robots: {
