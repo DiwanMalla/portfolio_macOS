@@ -9,7 +9,6 @@ import Stars from "./Stars";
 import Clouds from "./Clouds";
 import { useDayNightCycle } from "@/hooks/useDayNightCycle";
 import { useAmbientSound } from "@/hooks/useAmbientSound";
-import { Volume2, VolumeX } from "lucide-react";
 
 interface DesktopProps {
   children: ReactNode;
@@ -94,36 +93,18 @@ export default function Desktop({ children }: DesktopProps) {
             </div>
           )}
           
-          {/* Time & Sound Controls */}
-          <div className="absolute top-4 right-4 z-20 flex items-center gap-3">
-            {/* Sound Toggle */}
-            <button
-              onClick={toggleMute}
-              className="px-3 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10 hover:bg-black/40 transition-colors"
-              title={isMuted ? "Unmute ambient sounds" : "Mute ambient sounds"}
-            >
-              <div className="flex items-center gap-2 text-white/80 text-sm">
-                {isMuted ? (
-                  <VolumeX className="w-4 h-4" />
-                ) : (
-                  <Volume2 className="w-4 h-4" />
-                )}
-              </div>
-            </button>
-
-            {/* Time Indicator */}
-            <div className="px-4 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10">
-              <div className="flex items-center gap-2 text-white/80 text-sm">
-                <span className="text-lg">
-                  {theme.timeOfDay === "dawn" && "🌅"}
-                  {theme.timeOfDay === "day" && "☀️"}
-                  {theme.timeOfDay === "dusk" && "🌇"}
-                  {theme.timeOfDay === "night" && "🌙"}
-                </span>
-                <span className="capitalize font-medium">{theme.timeOfDay}</span>
-                <span className="text-white/50">•</span>
-                <span>{currentHour}:00</span>
-              </div>
+          {/* Time Indicator */}
+          <div className="absolute top-4 right-4 z-20 px-4 py-2 bg-black/30 backdrop-blur-md rounded-full border border-white/10">
+            <div className="flex items-center gap-2 text-white/80 text-sm">
+              <span className="text-lg">
+                {theme.timeOfDay === "dawn" && "🌅"}
+                {theme.timeOfDay === "day" && "☀️"}
+                {theme.timeOfDay === "dusk" && "🌇"}
+                {theme.timeOfDay === "night" && "🌙"}
+              </span>
+              <span className="capitalize font-medium">{theme.timeOfDay}</span>
+              <span className="text-white/50">•</span>
+              <span>{currentHour}:00</span>
             </div>
           </div>
         </>
