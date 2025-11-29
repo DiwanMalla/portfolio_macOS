@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, FormEvent, useEffect, useRef } from "react";
-import { Send, Trash2, Sparkles } from "lucide-react";
+import { useState, FormEvent, useEffect, useRef, useCallback } from "react";
+import { Send, Trash2, Sparkles, Mic, MicOff, Volume2, VolumeX } from "lucide-react";
 import { profile } from "@/constants/profile";
 
 interface HistoryItem {
@@ -12,8 +12,16 @@ interface HistoryItem {
 export default function Terminal() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isListening, setIsListening] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
+  const [pendingVoiceInput, setPendingVoiceInput] = useState<string | null>(null);
+  
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const recognitionRef = useRef<any>(null);
+  const synthesisRef = useRef<SpeechSynthesis | null>(null);
+  
   const [history, setHistory] = useState<HistoryItem[]>([
     { type: "output", text: "Last login: " + new Date().toLocaleString() },
     {
@@ -23,12 +31,97 @@ export default function Terminal() {
     { type: "output", text: "Ask me about skills, projects, or experience..." },
   ]);
 
+  // Initialize Speech API
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      // Speech Recognition
+      const SpeechRecognition =
+        (window as any).SpeechRecognition ||
+        (window as any).webkitSpeechRecognition;
+      
+      if (SpeechRecognition) {
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        recognition.lang = "en-US";
+
+        recognition.onstart = () => setIsListening(true);
+        recognition.onend = () => setIsListening(false);
+        recognition.onresult = (event: any) => {
+          const transcript = event.results[0][0].transcript;
+          setInput(transcript);
+          setPendingVoiceInput(transcript);
+        };
+        
+        recognitionRef.current = recognition;
+      }
+
+      // Speech Synthesis
+      if (window.speechSynthesis) {
+        synthesisRef.current = window.speechSynthesis;
+      }
+    }
+    
+    return () => {
+      if (synthesisRef.current) {
+        synthesisRef.current.cancel();
+      }
+    };
+  }, []);
+
+  // Auto-submit voice input
+  useEffect(() => {
+    if (pendingVoiceInput) {
+      handleCommand(pendingVoiceInput);
+      setPendingVoiceInput(null);
+    }
+  }, [pendingVoiceInput]);
+
   // Auto-scroll to bottom
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
-  }, [history, isLoading]);
+  }, [history, isLoading, isListening]);
+
+  const speakText = (text: string) => {
+    if (isMuted || !synthesisRef.current) return;
+
+    // Cancel previous speech
+    synthesisRef.current.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.rate = 1.0;
+    utterance.pitch = 1.0;
+    utterance.volume = 1.0;
+    
+    // Try to find a good voice
+    const voices = synthesisRef.current.getVoices();
+    const preferredVoice = voices.find(v => v.name.includes("Google") || v.name.includes("Samantha"));
+    if (preferredVoice) utterance.voice = preferredVoice;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    synthesisRef.current.speak(utterance);
+  };
+
+  const toggleListening = () => {
+    if (!recognitionRef.current) {
+      alert("Speech recognition is not supported in this browser.");
+      return;
+    }
+
+    if (isListening) {
+      recognitionRef.current.stop();
+    } else {
+      // Stop speaking if listening starts
+      if (synthesisRef.current) synthesisRef.current.cancel();
+      setIsSpeaking(false);
+      recognitionRef.current.start();
+    }
+  };
 
   const handleChatQuery = async (query: string) => {
     setIsLoading(true);
@@ -53,6 +146,9 @@ export default function Terminal() {
       }
 
       const text = await response.text();
+
+      // Speak the response
+      speakText(text);
 
       // Stream the text word by word
       setIsLoading(false);
@@ -96,6 +192,10 @@ export default function Terminal() {
       return;
     }
 
+    // Stop speaking if new command
+    if (synthesisRef.current) synthesisRef.current.cancel();
+    setIsSpeaking(false);
+
     // All other input is treated as chat queries
     await handleChatQuery(trimmedCmd);
   };
@@ -138,14 +238,35 @@ export default function Terminal() {
           <span className="text-cyan-300 font-bold text-sm sm:text-base">
             {profile.name.split(" ")[0]} AI
           </span>
+          {isSpeaking && (
+            <span className="flex items-center gap-0.5 ml-2">
+              <span className="w-0.5 h-2 bg-cyan-400 animate-[bounce_1s_infinite]"></span>
+              <span className="w-0.5 h-3 bg-cyan-400 animate-[bounce_1s_infinite_0.1s]"></span>
+              <span className="w-0.5 h-2 bg-cyan-400 animate-[bounce_1s_infinite_0.2s]"></span>
+            </span>
+          )}
         </div>
-        <button
-          onClick={handleClear}
-          className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-950/30 rounded-lg transition-colors"
-          title="Clear chat"
-        >
-          <Trash2 size={16} />
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => {
+              setIsMuted(!isMuted);
+              if (!isMuted && synthesisRef.current) synthesisRef.current.cancel();
+            }}
+            className={`p-2 rounded-lg transition-colors ${
+              isMuted ? "text-gray-500 hover:text-gray-400" : "text-cyan-400 hover:bg-cyan-950/30"
+            }`}
+            title={isMuted ? "Unmute TTS" : "Mute TTS"}
+          >
+            {isMuted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
+          <button
+            onClick={handleClear}
+            className="p-2 text-gray-400 hover:text-red-400 hover:bg-red-950/30 rounded-lg transition-colors"
+            title="Clear chat"
+          >
+            <Trash2 size={16} />
+          </button>
+        </div>
       </div>
 
       {/* Quick Suggestions - Mobile Only */}
@@ -241,6 +362,12 @@ export default function Terminal() {
             </span>
           </div>
         )}
+        {isListening && (
+          <div className="flex items-center gap-2 text-red-400 animate-pulse text-xs sm:text-sm py-2">
+            <Mic size={14} />
+            <span>Listening...</span>
+          </div>
+        )}
       </div>
 
       {/* Input form - Responsive */}
@@ -257,10 +384,25 @@ export default function Terminal() {
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 bg-transparent text-white outline-none text-sm sm:text-base min-w-0"
             autoFocus
-            disabled={isLoading}
-            placeholder="Ask me anything..."
+            disabled={isLoading || isListening}
+            placeholder={isListening ? "Listening..." : "Ask me anything..."}
           />
         </div>
+        
+        {/* Mic Button - Only show if supported */}
+        <button
+          type="button"
+          onClick={toggleListening}
+          className={`p-2.5 sm:p-3 rounded-xl transition-all shrink-0 ${
+            isListening
+              ? "bg-red-500/20 text-red-400 animate-pulse border border-red-500/50"
+              : "bg-gray-800 hover:bg-gray-700 text-cyan-400 border border-gray-700"
+          }`}
+          title={isListening ? "Stop listening" : "Start voice input"}
+        >
+          {isListening ? <MicOff size={18} className="sm:w-5 sm:h-5" /> : <Mic size={18} className="sm:w-5 sm:h-5" />}
+        </button>
+
         <button
           type="submit"
           disabled={isLoading || !input.trim()}
