@@ -98,7 +98,7 @@ export const windowRegistry: WindowRegistry = {
     id: "githubstats",
     title: "GitHub Stats",
     component: "githubstats",
-    icon: "/images/github.png",
+    icon: "/images/sssssgithub.png",
     category: "social",
     defaultSize: { width: 800, height: 700 },
     defaultPosition: { x: 180, y: 80 },
