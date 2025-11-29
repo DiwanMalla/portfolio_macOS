@@ -8,7 +8,6 @@ import Spotlight from "./Spotlight";
 import Stars from "./Stars";
 import Clouds from "./Clouds";
 import { useDayNightCycle } from "@/hooks/useDayNightCycle";
-import { useAmbientSound } from "@/hooks/useAmbientSound";
 
 interface DesktopProps {
   children: ReactNode;
@@ -18,7 +17,6 @@ export default function Desktop({ children }: DesktopProps) {
   const wallpaper = useStore((state) => state.wallpaper);
   const [use3D, setUse3D] = useState(false);
   const { theme, currentHour } = useDayNightCycle();
-  const { isMuted, toggleMute } = useAmbientSound(theme.timeOfDay, true);
 
   useEffect(() => {
     // Prevent context menu
