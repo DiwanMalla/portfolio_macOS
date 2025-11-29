@@ -24,7 +24,7 @@ export default function DesktopGrid() {
 
   return (
     <div className="desktop-container absolute inset-0 z-0 pointer-events-none overflow-hidden">
-      <div className="relative w-full h-full pointer-events-auto">
+      <div className="relative w-full h-full">
         {desktopShortcuts.map((item, i) => (
           <DesktopIcon
             key={item.id}
