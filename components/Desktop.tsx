@@ -93,7 +93,7 @@ export default function Desktop({ children }: DesktopProps) {
           )}
           
           {/* Floating Tech Kid Character */}
-          <div className="absolute bottom-[5%] right-[5%] w-[200px] h-[200px] md:w-[300px] md:h-[300px] z-[15] pointer-events-none animate-float-around">
+          <div className="absolute bottom-0 left-[5%] w-[200px] h-[200px] md:w-[300px] md:h-[300px] z-[15] pointer-events-none animate-float-around">
             <img
               src="/images/tech-kid.png"
               alt="Tech Kid"
