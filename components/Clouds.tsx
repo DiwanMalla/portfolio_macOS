@@ -14,7 +14,7 @@ interface Cloud {
 export default function Clouds() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const cloudsRef = useRef<Cloud[]>([]);
-  const animationRef = useRef<number>();
+  const animationRef = useRef<number>(0);
 
   useEffect(() => {
     const canvas = canvasRef.current;
