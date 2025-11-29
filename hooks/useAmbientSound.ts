@@ -27,10 +27,31 @@ const soundMap: Record<TimeOfDay, AmbientSound | null> = {
 
 export function useAmbientSound(timeOfDay: TimeOfDay, enabled: boolean = true) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Start muted to avoid autoplay issues
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Initialize audio on first user interaction
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      setHasInteracted(true);
+      // Auto-unmute on first interaction
+      if (isMuted) {
+        setIsMuted(false);
+      }
+    };
+
+    // Listen for any user interaction
+    window.addEventListener("click", handleFirstInteraction, { once: true });
+    window.addEventListener("keydown", handleFirstInteraction, { once: true });
+
+    return () => {
+      window.removeEventListener("click", handleFirstInteraction);
+      window.removeEventListener("keydown", handleFirstInteraction);
+    };
+  }, []);
 
   useEffect(() => {
-    if (!enabled || isMuted) return;
+    if (!enabled || isMuted || !hasInteracted) return;
 
     const sound = soundMap[timeOfDay];
     if (!sound) return;
@@ -43,6 +64,11 @@ export function useAmbientSound(timeOfDay: TimeOfDay, enabled: boolean = true) {
 
     const audio = audioRef.current;
     
+    // If already playing the same sound, don't restart
+    if (audio.src.includes(sound.url) && !audio.paused) {
+      return;
+    }
+
     // Fade out current sound
     const fadeOut = setInterval(() => {
       if (audio.volume > 0.05) {
@@ -54,26 +80,27 @@ export function useAmbientSound(timeOfDay: TimeOfDay, enabled: boolean = true) {
         // Switch to new sound
         audio.src = sound.url;
         audio.volume = 0;
-        audio.play().catch(() => {
-          // Autoplay might be blocked, that's okay
+        audio.play().then(() => {
+          // Fade in new sound
+          const fadeIn = setInterval(() => {
+            if (audio.volume < sound.volume - 0.05) {
+              audio.volume = Math.min(sound.volume, audio.volume + 0.05);
+            } else {
+              audio.volume = sound.volume;
+              clearInterval(fadeIn);
+            }
+          }, 100);
+        }).catch(() => {
+          // Autoplay blocked, user needs to interact
+          console.log("Audio autoplay blocked");
         });
-
-        // Fade in new sound
-        const fadeIn = setInterval(() => {
-          if (audio.volume < sound.volume - 0.05) {
-            audio.volume = Math.min(sound.volume, audio.volume + 0.05);
-          } else {
-            audio.volume = sound.volume;
-            clearInterval(fadeIn);
-          }
-        }, 100);
       }
     }, 100);
 
     return () => {
       clearInterval(fadeOut);
     };
-  }, [timeOfDay, enabled, isMuted]);
+  }, [timeOfDay, enabled, isMuted, hasInteracted]);
 
   useEffect(() => {
     return () => {
@@ -85,15 +112,27 @@ export function useAmbientSound(timeOfDay: TimeOfDay, enabled: boolean = true) {
   }, []);
 
   const toggleMute = () => {
-    setIsMuted(!isMuted);
+    const newMutedState = !isMuted;
+    setIsMuted(newMutedState);
+    
     if (audioRef.current) {
-      if (!isMuted) {
+      if (newMutedState) {
+        // Muting - pause audio
         audioRef.current.pause();
       } else {
-        audioRef.current.play().catch(() => {});
+        // Unmuting - play audio
+        setHasInteracted(true); // Ensure we mark as interacted
+        const sound = soundMap[timeOfDay];
+        if (sound) {
+          audioRef.current.src = sound.url;
+          audioRef.current.volume = sound.volume;
+          audioRef.current.play().catch(() => {
+            console.log("Audio play failed");
+          });
+        }
       }
     }
   };
 
-  return { isMuted, toggleMute };
+  return { isMuted, toggleMute, hasInteracted };
 }
