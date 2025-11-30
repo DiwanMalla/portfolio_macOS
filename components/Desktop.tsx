@@ -7,7 +7,6 @@ import { wallpaperMap, defaultWallpaperId } from "@/constants/wallpapers";
 import AnimatedWallpaper from "./AnimatedWallpaper";
 import Spotlight from "./Spotlight";
 import Stars from "./Stars";
-import Clouds from "./Clouds";
 import { useDayNightCycle } from "@/hooks/useDayNightCycle";
 
 interface DesktopProps {
@@ -34,7 +33,6 @@ export default function Desktop({ children }: DesktopProps) {
     wallpaperAsset?.src || wallpaperMap[defaultWallpaperId].src;
 
   const showStars = theme.timeOfDay === "night" || theme.timeOfDay === "dusk";
-  const showClouds = theme.timeOfDay === "day" || theme.timeOfDay === "dawn";
 
   return (
     <div className="relative h-screen w-screen overflow-hidden">
@@ -82,13 +80,6 @@ export default function Desktop({ children }: DesktopProps) {
           {showStars && (
             <div className="absolute inset-0 transition-opacity duration-1000 animate-in fade-in">
               <Stars />
-            </div>
-          )}
-
-          {/* Clouds (day/dawn only) */}
-          {showClouds && (
-            <div className="absolute inset-0 transition-opacity duration-1000 animate-in fade-in">
-              <Clouds />
             </div>
           )}
           
